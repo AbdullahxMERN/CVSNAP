@@ -1,26 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mr+De+Haviland&family=Rock+Salt&family=Share+Tech+Mono&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-pink: #ff64d5;
+  --color-pink-soft: #ffcef2;
+  --color-yellow: #ffd905;
+  --color-yellow-soft: #fff4c2;
+  --color-blue: #48a4ff;
+  --color-blue-deep: #206bff;
+  --color-orange: #ff8400;
+  --color-red: #ff0522;
+  --color-green: #1eac1a;
+  --color-black: #000000;
+  --color-white: #ffffff;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff4c2;
+  color: #000000;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+.font-bebas {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.font-rock {
+  font-family: 'Rock Salt', cursive;
+}
+
+.font-script {
+  font-family: 'Mr De Haviland', cursive;
+}
+
+.font-mono-tech {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.text-stroke-black {
+  -webkit-text-stroke: 2px #000;
+  paint-order: stroke fill;
+}
+
+.text-stroke-black-sm {
+  -webkit-text-stroke: 1px #000;
+  paint-order: stroke fill;
+}
+
+.text-stroke-black-thick {
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+}
+
+/* ============================================
+   NEO-BRUTALIST COMPONENT TOKENS
+   ============================================ */
+.nb-box {
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0px #000;
+}
+
+.nb-box-sm {
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.nb-box-lg {
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #000;
+}
+
+.nb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid #000;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #000;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.nb-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.nb-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #000;
+}
+
+/* ============================================
+   BACKGROUND PATTERNS
+   ============================================ */
+.bg-retro-dots {
+  background-image: radial-gradient(#000 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.bg-retro-grid {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, .08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, .08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffd905;
+  border-left: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff64d5;
+  border: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #206bff;
+}
+
+/* ============================================
+   TEMPLATE THUMBNAIL — CRISP HD RENDERING
+   ============================================ */
+/* Force GPU compositing on scaled thumbnail wrappers so the
+   browser downsamples at native resolution (no blur, no antialiasing smear). */
+.template-thumbnail-root {
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.template-thumbnail-root * {
+  /* Prevent sub-pixel antialiasing from blurring small text */
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.template-thumbnail-inner {
+  will-change: transform;
+  transform-origin: top left;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  image-rendering: crisp-edges;
+}
+
+/* ============================================
+   ANIMATION KEYFRAMES — MARINA ZAKHAROVA STYLE
+   ============================================ */
+
+/* ── Marquee Ticker ── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Sticker Sway (hero decorations) ── */
+@keyframes subtleSway {
+
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0px);
+  }
+
+  50% {
+    transform: rotate(2.5deg) translateY(-8px);
+  }
+}
+
+.animate-sway {
+  animation: subtleSway 4s ease-in-out infinite;
+}
+
+/* ── Float (hero decorations) ── */
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+/* 2-Second Preview Blink Flash Effect */
+@keyframes blinkFlash {
+  0% {
+    opacity: 1;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.1;
+    filter: brightness(2) blur(3px);
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+.animate-blink-flash {
+  animation: blinkFlash 0.5s ease-in-out forwards;
+}
+
+/* ── Hero Animated Gradient Background ── */
+@keyframes heroSlide {
+  0% {
+    transform: translateX(-25%);
+  }
+
+  100% {
+    transform: translateX(25%);
+  }
+}
+
+.hero-bg {
+  animation: heroSlide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #ff64d5 50%, #ffd905 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.5;
+  position: absolute;
+  right: -50%;
+  top: 0;
+  z-index: 0;
+}
+
+.hero-bg2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+  background-image: linear-gradient(-60deg, #48a4ff 50%, #ffd905 50%);
+}
+
+.hero-bg3 {
+  animation-duration: 5s;
+  background-image: linear-gradient(-60deg, #0d9488 50%, #ff64d5 50%);
+}
+
+/* ── Spin (sticker badges) ── */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+/* ── Slide up reveal ── */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.55s cubic-bezier(.22, .97, .52, 1) both;
+}
+
+.animate-slide-up-delay-1 {
+  animation: slideUp 0.55s cubic-bezier(.22, .97, .52, 1) 0.10s both;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slideUp 0.55s cubic-bezier(.22, .97, .52, 1) 0.22s both;
+}
+
+.animate-slide-up-delay-3 {
+  animation: slideUp 0.55s cubic-bezier(.22, .97, .52, 1) 0.36s both;
+}
+
+/* ── Fade in scale (card entrance) ── */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s cubic-bezier(.22, .97, .52, 1) both;
+}
+
+/* ── Stagger children fade-in ── */
+@keyframes staggerFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-children>* {
+  opacity: 0;
+  animation: staggerFade 0.45s cubic-bezier(.22, .97, .52, 1) both;
+}
+
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0.00s;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 0.21s;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 0.28s;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 0.35s;
+}
+
+.stagger-children>*:nth-child(7) {
+  animation-delay: 0.42s;
+}
+
+.stagger-children>*:nth-child(8) {
+  animation-delay: 0.49s;
+}
+
+.stagger-children>*:nth-child(9) {
+  animation-delay: 0.56s;
+}
+
+.stagger-children>*:nth-child(10) {
+  animation-delay: 0.63s;
+}
+
+.stagger-children>*:nth-child(11) {
+  animation-delay: 0.70s;
+}
+
+.stagger-children>*:nth-child(12) {
+  animation-delay: 0.77s;
+}
+
+.stagger-children>*:nth-child(13) {
+  animation-delay: 0.84s;
+}
+
+.stagger-children>*:nth-child(14) {
+  animation-delay: 0.91s;
+}
+
+.stagger-children>*:nth-child(15) {
+  animation-delay: 0.98s;
+}
+
+/* ── Card flip (Marina pricing-style) ── */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.flip-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(.22, .97, .52, 1);
+  cursor: pointer;
+}
+
+.flip-card:hover,
+.flip-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ── Tilt card on hover (JavaScript applied via CSS vars) ── */
+.tilt-card {
+  transition: transform 0.25s ease;
+  transform-style: preserve-3d;
+}
+
+/* ── Pulse glow border (selected card) ── */
+@keyframes pulseBorder {
+
+  0%,
+  100% {
+    box-shadow: 5px 5px 0 #000, 0 0 0 0 rgba(255, 100, 213, 0.5);
+  }
+
+  50% {
+    box-shadow: 5px 5px 0 #000, 0 0 0 6px rgba(255, 100, 213, 0);
+  }
+}
+
+.animate-pulse-border {
+  animation: pulseBorder 1.8s ease-in-out infinite;
+}
+
+/* ── Wiggle (button attention) ── */
+@keyframes wiggle {
+
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+
+  25% {
+    transform: rotate(3deg);
+  }
+
+  50% {
+    transform: rotate(-2deg);
+  }
+
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+/* ── Typewriter cursor ── */
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Horizontal slide (drawer) ── */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.35s cubic-bezier(.22, .97, .52, 1) both;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.35s cubic-bezier(.22, .97, .52, 1) both;
+}
+
+/* ── Bounce (CTA attention) ── */
+@keyframes bouncePop {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.07);
+  }
+
+  60% {
+    transform: scale(0.97);
+  }
+
+  80% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-pop {
+  animation: bouncePop 0.6s cubic-bezier(.22, .97, .52, 1);
+}
+
+/* ── Rolling number counter animation ── */
+@keyframes countUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-count-up {
+  animation: countUp 0.5s ease-out;
+}
+
+/* ── Shine sweep (card highlight) ── */
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .4), transparent);
+  transform: skewX(-20deg);
+  transition: none;
+}
+
+.shine-effect:hover::after {
+  animation: shine 0.7s ease forwards;
+}
+
+/* ── Preview blank overlay fade-in ── */
+@keyframes previewBlankIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* ============================================
+   PRINT RULES FOR CRISP VECTOR PDF EXPORT
+   ============================================ */
+@page {
+  size: A4 portrait;
+  margin: 0mm;
+}
+
+@media print {
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  nav,
+  header,
+  aside,
+  button,
+  .builder-sidebar,
+  .builder-header,
+  .template-selector-modal {
+    display: none !important;
+  }
+
+  .cv-preview-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .cv-a4-page {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 auto !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    transform: none !important;
+  }
+
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  header {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
 }
